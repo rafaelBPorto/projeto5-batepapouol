@@ -1,6 +1,8 @@
 let nome = entrarNASala();
+buscarMessagens();
 
 setInterval(verificarConexao, 5000)
+setInterval(buscarMessagens, 3000)
 
 //----------------------------------------------------------------------------------------------------------
 //------------------------------------Entrar na Sala--------------------------------------------------------
@@ -82,6 +84,7 @@ function respostaConexao(resposta){
 //----------------------------------------------------------------------------------------------------------
 
 function buscarMessagens(){
+    console.log("entrou")
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then(imprimirMensagens)
 
@@ -97,6 +100,7 @@ function imprimirMensagens(mensagens){
         `
                 
     }
-    const lastChild = ul.lastChild
-        lastChild.scrollIntoView();
+    //let li_last = ul.lastChild
+    //li_last.scrollIntoView()
+    ul.scrollIntoView({block: "end"});
 }
