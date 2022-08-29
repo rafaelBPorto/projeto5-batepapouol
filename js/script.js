@@ -1,6 +1,10 @@
 let nome = entrarNASala();
+
 setInterval(verificarConexao, 5000)
 
+//----------------------------------------------------------------------------------------------------------
+//------------------------------------Entrar na Sala--------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
 function entrarNASala (){  
     const nomeUsuario = {
         name: verificarNome()
@@ -53,9 +57,10 @@ function participantes(){ // Solicita lista de participantes
 function processarResposta(resposta){ //imprimi lista de participantes
     console.log(resposta.data);
 }
-
+//----------------------------------------------------------------------------------------------------------
+//------------------------------------Manter conexão--------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
 function verificarConexao(){
-    console.log(nome)
     const promessa = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', nome)
 
     promessa.then(respostaConexao)
@@ -70,4 +75,28 @@ function respostaConexao(resposta){
     }else{
         console.log(resposta.data)
     } 
+}
+
+//----------------------------------------------------------------------------------------------------------
+//------------------------------------Buscar mensagens------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+function buscarMessagens(){
+    const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
+    promessa.then(imprimirMensagens)
+
+}
+
+function imprimirMensagens(mensagens){
+
+    const ul = document.querySelector("ul");
+    for (let index = 0; index < mensagens.data.length; index++) {
+        const element = mensagens.data[index];
+        ul.innerHTML +=`
+            <li class="${element.type}"><span>${element.time}</span><span> <strong>${element.from}</strong> para <strong>${element.to}</strong>: ${element.text}</span></li>
+        `
+                
+    }
+    const lastChild = ul.lastChild
+        lastChild.scrollIntoView();
 }
