@@ -38,7 +38,6 @@ function tratarErro(erro){
 }
 
 function tudoCerto(){
-    console.log('entrou')
 }
 
 function participantes(){ // Solicita lista de participantes
@@ -73,10 +72,8 @@ function verificarConexao(){
 function respostaConexao(resposta){
     if (resposta.data !=='OK'){
         alert('conexão encerrada')
-        location.reload()
-    }else{
-        console.log(resposta.data)
-    } 
+        window.location.reload()
+    }
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -84,7 +81,6 @@ function respostaConexao(resposta){
 //----------------------------------------------------------------------------------------------------------
 
 function buscarMessagens(){
-    console.log("entrou")
     const promessa = axios.get('https://mock-api.driven.com.br/api/v6/uol/messages');
     promessa.then(imprimirMensagens)
 
@@ -100,7 +96,29 @@ function imprimirMensagens(mensagens){
         `
                 
     }
-    //let li_last = ul.lastChild
-    //li_last.scrollIntoView()
+
     ul.scrollIntoView({block: "end"});
+}
+
+//----------------------------------------------------------------------------------------------------------
+//------------------------------------Enviar mensagens------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+function enviarMensagem(){
+    
+    const mensagem = document.querySelector("input")
+    
+    const textoMensagem = {
+        from: nome.name,
+        to: "Todos",
+        text: mensagem.value,
+        type: "message"
+    }
+
+    console.log(textoMensagem)
+
+    mensagem.value="";
+
+    const promessa = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", textoMensagem);
+    promessa.catch(function() {window.location.reload()});
 }
